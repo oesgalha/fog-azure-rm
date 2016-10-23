@@ -22,6 +22,21 @@ module Fog
           file.key = name
           file
         end
+
+        def head(name, options = { timeout: 3 })
+          requires :directory
+          File.new(service: service).tap do |file|
+            file.key = name
+            file.directory = directory.key
+            file.get_properties
+          end
+        rescue Azure::Core::Http::HTTPError => ex
+          if ex.status_code.between?(400, 499)
+            nil
+          else
+            raise ex
+          end
+        end
       end
     end
   end

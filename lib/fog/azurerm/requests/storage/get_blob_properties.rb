@@ -5,13 +5,9 @@ module Fog
       class Real
         def get_blob_properties(container_name, name, options = {})
           Fog::Logger.debug "Get Blob #{name} properties in container #{container_name}."
-          begin
-              blob_properties = @blob_client.get_blob_properties(container_name, name, options)
-              Fog::Logger.debug "Getting properties of blob #{name} successfully."
-              blob_properties
-            rescue Azure::Core::Http::HTTPError => ex
-              raise "Exception in getting properties of blob #{name}: #{ex.inspect}"
-            end
+          blob_properties = @blob_client.get_blob_properties(container_name, name, options)
+          Fog::Logger.debug "Getting properties of blob #{name} successfully."
+          blob_properties
         end
       end
       # This class provides the mock implementation for unit tests.
