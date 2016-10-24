@@ -35,7 +35,8 @@ module Fog
         end
 
         def files
-          @files ||= Fog::Storage::AzureRM::Files.new(directory: self, service: service)
+          requires :key
+          @files ||= Fog::Storage::AzureRM::Files.new(directory: key, service: service)
         end
 
         def self.parse(container)

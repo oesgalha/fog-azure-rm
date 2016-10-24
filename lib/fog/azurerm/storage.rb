@@ -38,11 +38,13 @@ module Fog
       request :get_container_access_control_list
       # Azure Storage Blob requests
       request :list_blobs
+      request :get_blob_content
       request :set_blob_metadata
       request :get_blob_metadata
       request :set_blob_properties
       request :get_blob_properties
       request :upload_block_blob_from_file
+      request :upload_block_blob_from_str
       request :download_blob_to_file
       request :copy_blob
       request :copy_blob_from_uri

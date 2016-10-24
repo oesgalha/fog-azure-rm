@@ -6,6 +6,7 @@ module Fog
       class File < Fog::Model
         identity  :key, aliases: %w(Name name)
         attribute :accept_ranges
+        attribute :body
         attribute :cache_control
         attribute :committed_block_count
         attribute :content_length
@@ -32,9 +33,14 @@ module Fog
         attribute :blob_type
 
         def save(options = {})
-          requires :key
-          requires :directory
-          merge_attributes(File.parse(service.upload_block_blob_from_file(directory, key, file_path, options)))
+          requires :directory, :key
+          if body
+            merge_attributes(File.parse(service.upload_block_blob_from_str(directory, key, body, options)))
+          elsif file_path
+            merge_attributes(File.parse(service.upload_block_blob_from_file(directory, key, file_path, options)))
+          else
+            requires :body
+          end
         end
 
         alias create save
