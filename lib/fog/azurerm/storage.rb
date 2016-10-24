@@ -100,7 +100,9 @@ module Fog
                                  storage_connection_string: options[:azure_storage_connection_string])
 
             @blob_client = Azure::Storage::Blob::BlobService.new
-            @blob_client.with_filter(Azure::Storage::Core::Filter::ExponentialRetryPolicyFilter.new)
+            if options[:retry_policy] && options[:retry_policy].downcase == 'exponential'
+              @blob_client.with_filter(Azure::Storage::Core::Filter::ExponentialRetryPolicyFilter.new)
+            end
             @blob_client.with_filter(Azure::Core::Http::DebugFilter.new) if @debug
           end
         end
